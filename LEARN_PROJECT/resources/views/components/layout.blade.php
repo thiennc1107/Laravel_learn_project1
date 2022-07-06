@@ -12,6 +12,7 @@
             crossorigin="anonymous"
             referrerpolicy="no-referrer"
         />
+        <script src="//unpkg.com/alpinejs" defer></script>
         <script src="https://cdn.tailwindcss.com"></script>
         <script>
             tailwind.config = {
@@ -32,26 +33,44 @@
                 ><img class="w-24" src="{{asset('images/logo.png')}}" alt="" class="logo"
             /></a>
             <ul class="flex space-x-6 mr-6 text-lg">
+                @auth
                 <li>
-                    <a href="register.html" class="hover:text-laravel"
+                    <span class="font-bold uppercase">Welcome {{auth()->user()->name}}</span>
+                </li>
+                <li>
+                    <a href="/listings/manage" class="hover:text-laravel"
+                        ><i class="fa-solid fa-gear"></i>
+                        Manage listings</a
+                    >
+                </li>
+                <li>
+                    <form class="inline" method="GET" action="/logout">
+                        @csrf
+                        <button type>
+                            <i class="fa-solid fa-door-closed"></i> Logout
+                        </button>
+                    </form>
+                </li>
+                @else
+                <li>
+                    <a href="/register" class="hover:text-laravel"
                         ><i class="fa-solid fa-user-plus"></i> Register</a
                     >
                 </li>
                 <li>
-                    <a href="login.html" class="hover:text-laravel"
+                    <a href="/login" class="hover:text-laravel"
                         ><i class="fa-solid fa-arrow-right-to-bracket"></i>
                         Login</a
                     >
                 </li>
+                @endauth
             </ul>
         </nav>
   {{-- VIEW OUTPUT --}}
   <main>
     {{$slot}}
   </main>
-<footer
-  class="fixed bottom-0 left-0 w-full flex items-center justify-start font-bold bg-laravel text-white h-24 mt-24 opacity-90 md:justify-center"
->
+<footer class="fixed bottom-0 left-0 w-full flex items-center justify-start font-bold bg-laravel text-white h-24 mt-24 opacity-90 md:justify-center">
   <p class="ml-2">Copyright &copy; 2022, All Rights reserved</p>
 
   <a
@@ -60,5 +79,6 @@
       >Post Job</a
   >
 </footer>
+<x-flash-message />
 </body>
 </html>
