@@ -10,6 +10,8 @@ class ListingController extends Controller
 {
     //show all
     public function index() {
+        $dummy = 'dummy';
+        $stop =1;
         return view('listings.index', [
             'listings' => Listing::latest()
             ->filter(request(['tag', 'search']))
